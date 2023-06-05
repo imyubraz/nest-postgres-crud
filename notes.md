@@ -184,3 +184,61 @@ npm install --save passport-jwt
 ```
 npm i --save @nestjs/config
 ```
+
+## Database Connection
+
+- Nest JS supports two popular ORMs (ORM : Object Relational Mapping) i.e TypeORM & Sequelize. 
+- We'll use TypeORM because of its stability, typescript support and huge community support.
+
+- Install typeorm
+```
+ npm install --save typeorm
+```
+
+- Install @nestjs/typeorm
+```
+ npm install --save @nestjs/typeorm
+```
+
+- Install db driver
+  - For SQL
+  ```
+  npm install --save mysql2
+  ```
+
+  - For Postgres
+  ```
+  npm install --save pg
+  ```
+
+- Install all at once 
+```
+npm install --save typeorm @nestjs/typeorm pg
+```
+
+- Configurations in app module (for postgres)
+
+```javascript
+
+...
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+@Module({
+  imports: [...,
+  TypeOrmModule.forRoot({
+    type: 'postgres',
+    host: 'localhost', //default
+    port: 5432, //default
+    username: 'postgres', //default
+    password: '1234567890', //set initially while configuring postgres
+    database: 'mydb', //created or existing db name 
+    entities: [],
+    synchronize: true,
+  }),
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
+
+```
