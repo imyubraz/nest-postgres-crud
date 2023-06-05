@@ -179,3 +179,8 @@ npm install --save bcryptjs
 npm install --save passport-jwt
 ```
 
+## Nest JS configurations
+
+```
+npm i --save @nestjs/config
+```
