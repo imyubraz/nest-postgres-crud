@@ -1,17 +1,16 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true,
       // by making it true we can use this config module throughout the application (for every further modules created). If its false we must import config module in every modules manually (like here we did)
-    // envFilePath: ".local.env"
-    envFilePath: ".prod.env"
+    envFilePath: ".local.env"
+    // envFilePath: ".prod.env"
       // if not mentioned, then default path for env file would be ".env"
 
   }),
@@ -27,8 +26,22 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     synchronize: true,
   }),
   */
- TypeOrmModule.forRoot(),
-    // second method (load config from ormconfig.json auto) but not working for me
+
+  // 3rd method (recommended) : where config details will be kept from .env file
+  TypeOrmModule.forRootAsync({
+    imports: [ConfigModule],
+    useFactory: async (configService: ConfigService) => ({
+      type: 'postgres',
+      host: configService.get<string>('DB_HOST'),
+      port: +configService.get<number>('DB_PORT'),
+      username: configService.get<string>('DB_USERNAME'),
+      password: configService.get<string>('DB_PASSWORD'),
+      database: configService.get<string>('DB_DATABASE'),
+      entities: [],
+      synchronize: configService.get<boolean>('DB_SYNC'),
+    }),
+    inject: [ConfigService],
+  }),
   UserModule
   ],
   controllers: [AppController],

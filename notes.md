@@ -233,3 +233,73 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 export class AppModule {}
 
 ```
+
+Recommended method :
+
+```javascript
+
+...
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
+@Module({
+  imports: [...,
+  TypeOrmModule.forRootAsync({
+  imports: [ConfigModule],
+  useFactory: (configService: ConfigService) => ({
+    type: 'postgres',
+    host: configService.get('HOST'),
+    port: +configService.get('PORT'),
+    username: configService.get('USERNAME'),
+    password: configService.get('PASSWORD'),
+    database: configService.get('DATABASE'),
+    entities: [],
+    synchronize: true,
+  }),
+  inject: [ConfigService],
+  }),
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
+
+```
+
+> Make sure you have HOST, PORT, USERNAME, DATABASE, PASSWORD defined in .env file.
+
+or even give sync option from .env file
+
+```javascript
+
+...
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
+@Module({
+  imports: [...,
+  TypeOrmModule.forRootAsync({
+    imports: [ConfigModule],
+    useFactory: async (configService: ConfigService) => ({
+      type: 'postgres',
+      host: configService.get<string>('DB_HOST'),
+      port: +configService.get<number>('DB_PORT'),
+      username: configService.get<string>('DB_USERNAME'),
+      password: configService.get<string>('DB_PASSWORD'),
+      database: configService.get<string>('DB_DATABASE'),
+      entities: [],
+      synchronize: configService.get<boolean>('DB_SYNC'),
+  }),
+  inject: [ConfigService],
+  }),
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
+
+```
+
+> Make sure you have TYPE, HOST, PORT, USERNAME, DATABASE, PASSWORD, SYNC defined in .env file.
+
+
