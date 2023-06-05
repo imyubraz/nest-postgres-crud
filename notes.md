@@ -225,16 +225,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [...,
-  TypeOrmModule.forRoot({
-    type: 'postgres',
-    host: 'localhost', //default
-    port: 5432, //default
-    username: 'postgres', //default
-    password: '1234567890', //set initially while configuring postgres
-    database: 'mydb', //created or existing db name 
-    entities: [],
-    synchronize: true,
-  }),
+  TypeOrmModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],

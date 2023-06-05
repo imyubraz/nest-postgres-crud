@@ -15,16 +15,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       // if not mentioned, then default path for env file would be ".env"
 
   }),
+  /*
   TypeOrmModule.forRoot({
     type: 'postgres',
     host: 'localhost', //default
     port: 5432, //default
     username: 'postgres', //default
     password: '1234567890', //set initially while configuring postgres
-    database: 'mydb', //created or existing db name 
+    database: 'mydb', //created or db name 
     entities: [],
     synchronize: true,
   }),
+  */
+ TypeOrmModule.forRoot(),
+    // second method (load config from ormconfig.json auto) but not working for me
   UserModule
   ],
   controllers: [AppController],
