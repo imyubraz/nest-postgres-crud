@@ -42,7 +42,17 @@ export class UserService {
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    let user: User = new User();
+    user.firstName = updateUserDto.firstName;
+    user.lastName = updateUserDto.lastName;
+    user.age = updateUserDto.age;
+    user.id = id;
+      /*
+      passing id too, 
+      here this.userRepository.save() execute in two ways :
+        If entity (with id provided) does not exist in the database then inserts, otherwise updates. 
+      */
+    return this.userRepository.save(user);
   }
 
   remove(id: number) {
