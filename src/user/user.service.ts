@@ -5,6 +5,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FindOneOptions } from 'typeorm';
+
+
 
 @Injectable()
 export class UserService {
@@ -27,12 +30,15 @@ export class UserService {
       // return promise (on resolve it will give data of User type)
   }
 
-  findAll() {
-    return `This action returns all user`;
+  findAll(): Promise<User[]> {
+    return this.userRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne(id: number): Promise<User> {
+    const options: FindOneOptions<User> = {
+      where: { id: id },
+    };
+    return this.userRepository.findOne(options);
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
