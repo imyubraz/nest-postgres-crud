@@ -12,8 +12,19 @@ export class UserService {
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
     // after injecting user repo (db) we can perform add, read, update & delete actions
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  create(createUserDto: CreateUserDto): Promise<User> {
+    let user: User = new User();
+      // instance/ obj from User entity (each instance maps each record in db )
+
+    // createUserDto is data passed from client expected of type CreateUserDto as defined earlier
+    user.firstName = createUserDto.firstName;
+    user.lastName = createUserDto.lastName;
+    user.age = createUserDto.age;
+    // left one for db column, right one for value of respective column
+
+    return this.userRepository.save(user);
+      // saving user obj (a record) in userRepository
+      // return promise (on resolve it will give data of User type)
   }
 
   findAll() {
