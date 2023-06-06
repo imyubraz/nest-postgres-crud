@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DemoModule } from './demo/demo.module';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './user/user.module';
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true,
@@ -37,12 +38,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: configService.get<string>('DB_USERNAME'),
       password: configService.get<string>('DB_PASSWORD'),
       database: configService.get<string>('DB_DATABASE'),
-      entities: [],
+      entities: [__dirname + "/**/*.entity{.ts,.js}" ],
+        // providing dir for entity files, __dirname -> current directory, /**/ => check nested dirs too, *.entity{.ts,.js} => file with name something.entity.ts or something.entity.js. In production code all .ts file will be converted into .js so we should mention .js too.
       synchronize: configService.get<boolean>('DB_SYNC'),
     }),
     inject: [ConfigService],
   }),
-  DemoModule
+  DemoModule,
+  UserModule
   ],
   controllers: [AppController],
   providers: [AppService],

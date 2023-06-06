@@ -303,3 +303,27 @@ export class AppModule {}
 > Make sure you have TYPE, HOST, PORT, USERNAME, DATABASE, PASSWORD, SYNC defined in .env file.
 
 
+## Flow in Nest JS
+
+Request -> On Different Module (as per route) -> Controller -> Service -> Repository
+
+Here, firstly request send by client goes to controller, controller communicate with service, service consists of business logics including repository (db) access.
+
+
+## Making CRUD endpoints
+
+### Entity ?
+
+Entity is a class that maps to a database table. [ source : https://typeorm.io/entities ]
+### Generate Resource (generate all files required for a module.)
+
+```
+nest g res <resource_name>
+```
+
+```
+nest g res user
+```
+
+> It will ask for transport layer (choose REST API) and to create crud entry points (press y and create basic crud endpoints automatically)
+
