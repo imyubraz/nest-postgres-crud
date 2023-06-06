@@ -43,6 +43,8 @@ import { UserModule } from './user/user.module';
       synchronize: configService.get<boolean>('DB_SYNC'),
         // synchronize: true (sync/map entity with respective table in db )
         // when app run for the first time it will create table for respective entity in respective db 
+      logging: true,
+        // show db query (sql query) logs in console on every sync
     }),
     inject: [ConfigService],
   }),
