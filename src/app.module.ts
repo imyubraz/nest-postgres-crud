@@ -41,6 +41,8 @@ import { UserModule } from './user/user.module';
       entities: [__dirname + "/**/*.entity{.ts,.js}" ],
         // providing dir for entity files, __dirname -> current directory, /**/ => check nested dirs too, *.entity{.ts,.js} => file with name something.entity.ts or something.entity.js. In production code all .ts file will be converted into .js so we should mention .js too.
       synchronize: configService.get<boolean>('DB_SYNC'),
+        // synchronize: true (sync/map entity with respective table in db )
+        // when app run for the first time it will create table for respective entity in respective db 
     }),
     inject: [ConfigService],
   }),
