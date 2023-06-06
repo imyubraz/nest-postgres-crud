@@ -41,7 +41,7 @@ export class UserService {
     return this.userRepository.findOne(options);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     let user: User = new User();
     user.firstName = updateUserDto.firstName;
     user.lastName = updateUserDto.lastName;
@@ -56,6 +56,6 @@ export class UserService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.userRepository.delete(id);
   }
 }
