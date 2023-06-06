@@ -55,6 +55,25 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
+  async updater(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+
+    const options: FindOneOptions<User> = {
+      where: { id: id },
+    };
+    const user = await this.userRepository.findOne(options);
+
+    if (!user) {
+      throw new Error(`User with id ${id} not found`);
+    }
+
+    user.firstName = updateUserDto.firstName;
+    user.lastName = updateUserDto.lastName;
+    user.age = updateUserDto.age;
+
+    const updatedUser = await this.userRepository.save(user);
+    return updatedUser;
+  }
+
   remove(id: number) {
     return this.userRepository.delete(id);
   }
